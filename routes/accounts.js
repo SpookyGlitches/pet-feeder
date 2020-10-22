@@ -20,7 +20,7 @@ router.post('/sign-up', (req,res) => {
     }
 });
 router.post('/sign-in',passport.authenticate('local',{
-    successRedirect: '/', // redirect to the secure profile section
+    successRedirect: '/home', // redirect to the secure profile section
     failureRedirect: '/', // redirect back to the signup page if there is an error
     failureFlash: true // allow flash messages
 }))

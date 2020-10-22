@@ -25,12 +25,4 @@ if((cards[cards.length-1].childElementCount % 3) == 0){
     document.getElementById("crd").append(carddeck);
 }else{
   cards[cards.length-1].append(card);
-  console.log("append");
 }
-
-// const color  = document.getElementById('color')
-// console.log(color)
-// color.addEventListener('onchange', (event) => {
-//   console.log("hoy")
-//   color.style.backGroundColor = color.value;
-// });

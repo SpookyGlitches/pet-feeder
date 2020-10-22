@@ -15,12 +15,17 @@ function changeColor(e) {
     <%
       let rows = Math.ceil(pets.length/3); //dont mind this please
       let x=0,a=0, z=0;
+      if(rows == 0 ){%>
+        <div class="card-deck">
+        </div>
+      <%}
+
+
       while ( x < rows ){ %>
         <div class="card-deck mb-4">
           <%
             a = 0
             while( a < 3 && z<pets.length){
-              console.log(pets[z].color)
               %>
               <div class="card border-0" >
 
@@ -64,7 +69,7 @@ function changeColor(e) {
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                           </button>
-                  </div>
+              </div>
           <form action="/add-pet" method="POST" class="m-0 p-0">
             <div class="modal-body">
               <div class="row">

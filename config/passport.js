@@ -15,14 +15,12 @@ const verifyCallback = (email, password, done) => {
     }
     db.query("SELECT * FROM users WHERE email = ? LIMIT 1",[email],(err,result)=>{
         if(err){
-            console.log("ARI NUON");
             throw err;
         }
-        if(result.count == 0 ){
+        if(result.length == 0 ){
             return done(null,false);
         }else{
             if(validPassword(password,result[0].hash,result[0].salt)){
-                console.log("Hoy ni sulod ko ari")
                 return done(null,result[0]);
             }else{
                 return done(null,false)

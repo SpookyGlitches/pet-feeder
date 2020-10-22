@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport')
 const session = require("express-session");
+var flash = require('connect-flash');
+
 const app = express();
 
 const bodyParser = require('body-parser')
@@ -16,6 +18,7 @@ app.set('layout', 'layouts/layout')
 app.use(express.static('public'))
 app.use(express.static(__dirname +'/public'))
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(flash());
 require('./config/passport');
 app.use(passport.initialize());
 // app.use(flash());
