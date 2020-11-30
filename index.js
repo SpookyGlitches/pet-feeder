@@ -1,40 +1,50 @@
 const express = require('express');
 const passport = require('passport')
 const session = require("express-session");
-var flash = require('connect-flash');
-
-const app = express();
-
+const flash = require('connect-flash');
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
 
-const indexRouter = require('./routes/index');
+const homeRouter = require('./routes/home');
 const accountsRouter = require('./routes/accounts');
 const testsRouter = require('./routes/test');
+const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname +'/views')
 app.set('layout', 'layouts/layout')
+
 app.use(express.static('public'))
-app.use(express.static(__dirname +'/public'))
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-app.use(flash());
-require('./config/passport');
-app.use(passport.initialize());
-// app.use(flash());
-app.use(passport.session());
+app.use('/static', express.static('public'))
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json())
 app.use(expressLayouts)
 
-require('./config/passport');
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(flash());
 
-app.use(passport.initialize());
-app.use(passport.session());
+const passportConfig = require('./config/passport');
+app.use(passportConfig.initialize());
+app.use(passportConfig.session());
+
+
+
 app.set('trust proxy', true)
-app.use('/',indexRouter);
+
+app.use((req,res,next)=>{
+    res.locals.message = req.session.message;
+    delete req.session.message;
+    next();
+})
+
+app.get('/',(req,res)=>{
+    res.render('index/first-visit');
+})
+
+app.use('/home',homeRouter);
 app.use('/accounts',accountsRouter);
 app.use('/test',testsRouter);
+var job = require('./cron.js');
+console.log(job.start())
 
-app.listen(1234, () => console.log(`App listening at http://localhost:1234`))
+app.listen(8080, () => console.log(`App listening at http://localhost:8080`))

@@ -1,124 +1,224 @@
-<link rel="stylesheet" type="text/css" href="css/home.css" />
+<link rel="stylesheet" type="text/css" href="/css/home.css" />
 <script>
-function changeColor(e) {
-  let x = document.getElementById("color");
-  x.style.backgroundColor = x.value;
-}
+  function changeColor(e) {
+    let x = document.getElementById("color");
+    x.style.backgroundColor = x.value;
+  }
 </script>
 <%- include('../partials/navbar.ejs') %>
-<!-- <img class="card-img-top cover" src="https://cwww.prestigeanimalhospital.com/sites/default/files/styles/large/adaptive-image/public/golden-retriever-dog-breed-info.jpg?itok=scGfz-nI" alt="Card image cap" > -->
-
-<div class="container mt-5" id='crd'>
-  <!-- <div class="card-deck mb-4">
-
-  </div> -->
-    <%
-      let rows = Math.ceil(pets.length/3); //dont mind this please
-      let x=0,a=0, z=0;
-      if(rows == 0 ){%>
-        <div class="card-deck">
+<div class="container mb-4" id='crd'>
+  <div class="mt-3 mb-3">
+    <% if(message){ %>
+      <div role="alert" class="alert <%=message.status=='Success'?'alert-success':'alert-warning'%>">
+        <strong><%= message.status %>. </strong> <%=message.message %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
+  </div>
+  <% let x = 0; %>
+  <% let y = 0; %>
+  <% let z = 0; %>
+  <% let rows = pets.length/3 +1 %>
+  <% while(x < rows){ %>
+    <div class="card-deck">
+      <% y = 0 ; %>
+      <% while(y<3 && z<pets.length) {%>
+      <div class="card border-0 rounded m-2 bg-light"  id="<%=pets[z].id%>" >
+        <div class="card-header border-0 m-0 pt-2 pb-2" >
+          <div class="d-flex justify-content-end" >
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square mr-2" fill="currentColor" 
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+            <path fill-rule="evenodd"
+              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+          </svg>
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle mr-2" fill="currentColor" 
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
+            <circle cx="8" cy="4.5" r="1" />
+          </svg>
+          <svg width="1em" height="1em" viewBox="0 0 16 16"  class="bi bi-trash mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+            <path fill-rule="evenodd"
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+          </svg>
+          </div>
         </div>
-      <%}
-
-
-      while ( x < rows ){ %>
-        <div class="card-deck mb-4">
-          <%
-            a = 0
-            while( a < 3 && z<pets.length){
-              %>
-              <div class="card border-0" >
-
-                <div class="card-body bg-light">
-                  <div class="row">
-                    <div class="col-10">
-                      <h5 class="card-title"><%=pets[z].name%></h5>
-                      <p class="card-text"><%=pets[z].details%></p>
-                      <small class="">Last fed 3 mins ago</small></p>  
-                    </div>
-                    <div class="col">
-                                          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                          </svg>
-                                          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                      <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-                      <circle cx="8" cy="4.5" r="1"/>
-                    </svg>
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                      <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer" <%="style=background-color:"+pets[z].color+";"%>>
-                </div>
-              </div>
-            <%z++;a++;}%>
-
+        <div class="card-body pt-0 bg-light" >
+          <h5 class="card-title"><%= pets[z].name %></h5>
+          <p class="card-text"><%=pets[z].details%></p>
         </div>
-    <%x++;}%>
+        <div class="card-footer pt-2 pb-2" >
+          <!-- <%="style=background-color:"+pets[z].color+";"%> -->
+          <!-- <small class="">Last fed 09/32/4000 at 08:30 </small> -->
+        </div>
+      </div>
+      <% z++; %>
+      <% y++; %>
+      <% } %>
+    </div>
+  <% x++; %>
+  <% }%>
+  <div class='text-center card-body m-0 d-flex justify-content-center' style='align-items:center'> <svg width='2.5em' height='2.5em' viewBox='0 0 16 16' class='bi bi-plus-circle-fill text-secondary' fill='currentColor' xmlns='http://www.w3.org/2000/svg' data-toggle='modal' data-target='#modelId'> <path fill-rule='evenodd' d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z'/> </svg> </div> 
+
 </div>
 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-              <div class="modal-header">
-                      <h5 class="modal-title font-weight-bold text-uppercase">Set up</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-              </div>
-          <form action="/add-pet" method="POST" class="m-0 p-0">
-            <div class="modal-body">
-              <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                      <label for="">What is your pet's name?</label>
-                      <input type="text" class="form-control form-control-sm" name="name" id="" aria-describedby="helpId" placeholder="snuffles">
-                    </div>
-                    <div class="form-group">
-                      <label for="">Additional details to be included</label>
-                      <input type="text" class="form-control form-control-sm" name="details" id="" aria-describedby="helpId" placeholder="optional">
-                    </div>
-                    <div class="form-group">
-                      <label for="">How many times do you want your pet to be fed?</label>
-                      <input type="number" min="1" max="10" class="form-control form-control-sm" name="quantity" id="quantity" aria-describedby="helpId" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Schedules</label>
-                        <div id="schedules">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Tile Color</label>
-                      <select class="custom-select text-light" name="color" id="color" style="background-color: #ff595e;" onchange="changeColor(event)">
-                        <option value="#ff595e">Red</option>
-                        <option value="#ffca3a">Yellow</option>
-                        <option value="#8ac926">Green</option>
-                        <option value="#1982c4">Blue</option>
-                        <option value="#6a4c93">Purple</option>
-                      </select>
-                    </div>
-                </div>
-                <!-- <div class="col">
-                  <div class="form-group">
-                    <label for="">Arduino hostname</label>
-                    <input type="text"
-                        class="form-control form-control-sm" name="" id="" aria-describedby="helpId" placeholder="">
-                    <small id="helpId" class="form-text text-muted">Help text</small>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary"/>
-            </div>
-          </form>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold text-uppercase">Set up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <form action="/home/add-pet" method="POST" class="m-0 p-0">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">IPv4 Address and Port number</label>
+                <input type="text" class="form-control form-control-sm" name="socket" 
+                  aria-describedby="helpId" placeholder="Sample 192.168.254.103:1234">
+              </div>
+              <div class="form-group">
+                <label for="">What is your pet's name?</label>
+                <input type="text" class="form-control form-control-sm" name="name" id="" aria-describedby="helpId"
+                  placeholder="snuffles" required>
+              </div>
+              <div class="form-group">
+                <label for="">Additional details to be included</label>
+                <input type="text" class="form-control form-control-sm" name="details" id="" aria-describedby="helpId"
+                  placeholder="optional">
+              </div>
+
+              <div class="form-group">
+                <label for="">How many times do you want your pet to be fed?</label>
+                <input type="number" min="1" max="10" class="form-control form-control-sm" name="quantity" id="quantity"
+                  aria-describedby="helpId" placeholder="0">
+              </div>
+              <div class="form-group">
+                <label for="">Schedules</label><br>
+                <small>This assumes that your pet will be fed daily.</small>
+                <div id="schedules">
+                </div>
+                <datalist id="times-list">
+                  
+                </datalist>
+              </div>
+              <!-- <div class="form-group">
+                <label for="">Tile Color</label>
+                <select class="custom-select text-light" name="color" id="color" style="background-color: #ff595e;"
+                  onchange="changeColor(event)">
+                  <option value="#ff595e">Red</option>
+                  <option value="#ffca3a">Yellow</option>
+                  <option value="#8ac926">Green</option>
+                  <option value="#1982c4">Blue</option>
+                  <option value="#6a4c93">Purple</option>
+                </select>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary" />
+        </div>
+      </form>
+    </div>
   </div>
 </div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">DELETE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/home/delete" method="POST">
+        <div class="modal-body">
+          Are you sure you want to delete this?
+          <div class="id" id="modal-body-delete">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn btn-danger" value="Yep, delete it" id="delete-button">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold text-uppercase">EDIT</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/home/edit/" method="POST" class="m-0 p-0">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="">What is your pet's name?</label>
+                <input type="text" class="form-control form-control-sm" name="name" id="edit-name" aria-describedby="helpId"
+                  placeholder="snuffles" required>
+              </div>
+              <div class="form-group">
+                <label for="">Additional details to be included</label>
+                <input type="text" class="form-control form-control-sm" name="details" id="edit-details" aria-describedby="helpId"
+                  placeholder="optional">
+              </div>
+              <div id="edit-schedules">
+
+              </div>
+              <div id="edit-id">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" value="Edit" class="btn btn-primary" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="logs" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold text-uppercase">Feeding logs</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="logs-body">
+
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <%- include('../partials/footer.ejs') %>
-<script src="js/home.js"></script>
+<script src="/js/home.js"></script>
