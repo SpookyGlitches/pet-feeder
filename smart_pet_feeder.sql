@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2020 at 04:28 PM
+-- Generation Time: Dec 28, 2020 at 05:49 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.27
 
@@ -36,16 +36,6 @@ CREATE TABLE `feeding_logs` (
   `status` enum('SUCCESS','FAIL') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `feeding_logs`
---
-
-INSERT INTO `feeding_logs` (`id`, `pet_id`, `date_time`, `duration`, `status`) VALUES
-(33, 251, '2020-12-27 22:25:12', 5000, 'SUCCESS'),
-(34, 251, '2020-12-27 23:15:24', 2000, 'SUCCESS'),
-(35, 251, '2020-12-27 23:20:00', 5000, 'SUCCESS'),
-(36, 251, '2020-12-27 23:20:17', 2000, 'SUCCESS');
-
 -- --------------------------------------------------------
 
 --
@@ -65,8 +55,8 @@ CREATE TABLE `pets` (
 --
 
 INSERT INTO `pets` (`id`, `user_id`, `arduino_uuid`, `name`, `details`) VALUES
-(251, 25, 'a67a35e2-6b08-4c8f-9c6f-ffea4da73c69', 'earljseph@gmail.cDom', 'earljseph@gmail.com'),
-(252, 25, '1ba37b85-3862-4987-8cb1-73237f48eccb', 'c', 'cccccccccc');
+(251, 25, 'a67a35e2-6b08-4c8f-9c6f-ffea4da73c69', 'snuffles 🐶', 'pet dog'),
+(252, 25, '1ba37b85-3862-4987-8cb1-73237f48eccb', 'amon ra 🐱', 'pet catttttttto');
 
 -- --------------------------------------------------------
 
@@ -80,23 +70,6 @@ CREATE TABLE `schedules` (
   `time` time NOT NULL DEFAULT current_timestamp(),
   `duration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `schedules`
---
-
-INSERT INTO `schedules` (`id`, `pet_id`, `time`, `duration`) VALUES
-(142, 251, '23:20:23', 5000),
-(143, 252, '00:31:00', 1000),
-(144, 252, '03:41:00', 1000),
-(145, 252, '09:23:00', 1000),
-(146, 252, '09:23:00', 1000),
-(147, 252, '15:33:00', 1000),
-(148, 252, '09:23:00', 1000),
-(149, 252, '02:34:00', 1000),
-(150, 252, '02:31:00', 1000),
-(151, 252, '09:23:00', 1000),
-(152, 252, '03:25:00', 1000);
 
 -- --------------------------------------------------------
 
@@ -116,7 +89,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `hash`, `salt`) VALUES
-(25, 'earljseph@gmail.com', '9b7477affd0572d8e9422f210ae8e7c6e1add16c65700566b1625817f4928daca26c11570e4f49327dfcdad513867f9ecbc7aa8598658ed8de33253255fb3fd6', 'e98173c178ff4265cdd7998e37650f31d315d6bb8467bd1eeef3a74a63192a99');
+(25, 'hello@gmail.com', '9b7477affd0572d8e9422f210ae8e7c6e1add16c65700566b1625817f4928daca26c11570e4f49327dfcdad513867f9ecbc7aa8598658ed8de33253255fb3fd6', 'e98173c178ff4265cdd7998e37650f31d315d6bb8467bd1eeef3a74a63192a99');
 
 --
 -- Indexes for dumped tables
@@ -147,7 +120,8 @@ ALTER TABLE `schedules`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -157,7 +131,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feeding_logs`
 --
 ALTER TABLE `feeding_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `pets`
@@ -175,7 +149,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
