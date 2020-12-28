@@ -1,21 +1,8 @@
-<link rel="stylesheet" type="text/css" href="/css/home.css" />
-<script>
-  function changeColor(e) {
-    let x = document.getElementById("color");
-    x.style.backgroundColor = x.value;
-  }
-</script>
+
 <%- include('../partials/navbar.ejs') %>
 <div class="container mb-4" id='crd'>
   <div class="mt-3 mb-3">
-    <% if(message){ %>
-      <div role="alert" class="alert <%=message.status=='Success'?'alert-success':'alert-warning'%>">
-        <strong><%= message.status %>. </strong> <%=message.message %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <% } %>
+
   </div>
   <% let x = 0; %>
   <% let y = 0; %>
@@ -50,11 +37,24 @@
           </svg>
           </div>
         </div>
-        <div class="card-body pt-0 bg-light" >
+        <div class="card-body text-center bg-light" >
           <h5 class="card-title"><%= pets[z].name %></h5>
           <p class="card-text"><%=pets[z].details%></p>
+          <div>
+            <%= pets[z].duration %>
+            <%=pets[z].time%>
+          </div>
+          <div class="text-center">
+            <input type="hidden" name="pet-id" value="<%=pets[z].id%>">
+            <input type="hidden" name="feed-id" value="<%=pets[z].arduino_uuid%>">
+            <input type="number" name="duration" class='mr-1 mb-2' id="" min="1000" step="1000" required>
+            <button class="btn btn-outline-dark btn-sm btn-feed-now">
+              Feed now
+            </button>
+          </div>
         </div>
-        <div class="card-footer pt-2 pb-2" >
+        <div class="card-footer  pt-2 pb-2" >
+
           <!-- <%="style=background-color:"+pets[z].color+";"%> -->
           <!-- <small class="">Last fed 09/32/4000 at 08:30 </small> -->
         </div>
@@ -81,11 +81,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col">
-              <div class="form-group">
-                <label for="">IPv4 Address and Port number</label>
-                <input type="text" class="form-control form-control-sm" name="socket" 
-                  aria-describedby="helpId" placeholder="Sample 192.168.254.103:1234">
-              </div>
+
               <div class="form-group">
                 <label for="">What is your pet's name?</label>
                 <input type="text" class="form-control form-control-sm" name="name" id="" aria-describedby="helpId"
@@ -96,7 +92,11 @@
                 <input type="text" class="form-control form-control-sm" name="details" id="" aria-describedby="helpId"
                   placeholder="optional">
               </div>
-
+              <div class="form-group">
+                <label for="">Duration in milliseconds</label>
+                <input type="number" class="form-control form-control-sm" step="1000" min="1000" name="duration" id="" aria-describedby="helpId"
+                  >   
+              </div>
               <div class="form-group">
                 <label for="">How many times do you want your pet to be fed?</label>
                 <input type="number" min="1" max="10" class="form-control form-control-sm" name="quantity" id="quantity"
@@ -167,10 +167,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/home/edit/" method="POST" class="m-0 p-0">
+      <form action="/home/edit" method="POST" class="m-0 p-0">
         <div class="modal-body">
           <div class="row">
             <div class="col">
+              <input type="hidden" name="id" id="edit-id" value="">
               <div class="form-group">
                 <label for="">What is your pet's name?</label>
                 <input type="text" class="form-control form-control-sm" name="name" id="edit-name" aria-describedby="helpId"
@@ -200,20 +201,27 @@
 </div>
 
 
-<div class="modal fade" id="logs" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
+<div class="modal fade" id="logs" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document" >
+    <div class="modal-content" style="min-height:400px;">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold text-uppercase">Feeding logs</h5>
+        <h5 class="modal-title font-weight-bold text-uppercase">PET INFO AND LOGS</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="logs-body">
+      <div class="modal-body">
+        <div id="info-body">
 
+        </div>
+        <h5>LOGS</h5>
+        <div id="logs-body" class="p-2">
+
+        </div>
       </div>
       <div class="modal-footer">
-
+        <!-- <button class="btn btn-outline-dark btn-sm">Previous</button> -->
+        <!-- <button class="btn btn-outline-dark btn-sm">Next</button> -->
       </div>
     </div>
   </div>

@@ -1,16 +1,17 @@
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
-var crypto = require("crypto");
 const db = require("./database");
+const { validPassword } = require('../helpers/password');
 
 const customFields = {
 	usernameField: "email",
 	passwordField: "password",
 };
+
 const verifyCallback = (email, password, done) => {
-    if(!(email || password)){
-        return done(null,false);
-    }
+	if (!(email || password)) {
+		return done(null, false);
+	}
 	db.query(
 		"SELECT * FROM users WHERE email = ? LIMIT 1",
 		[email],
@@ -50,10 +51,4 @@ passport.deserializeUser((user, done) => {
 	done(null, user);
 });
 
-function validPassword(password, hash, salt) {
-	var hashVerify = crypto
-		.pbkdf2Sync(password, salt, 10000, 64, "sha512")
-		.toString("hex");
-	return hash === hashVerify;
-}
 module.exports = passport;

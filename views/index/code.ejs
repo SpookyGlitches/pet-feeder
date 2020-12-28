@@ -1,0 +1,104 @@
+<%- include('../partials/navbar.ejs') %>
+<div class="container bg-dark">
+    <pre>
+        <code class='text-light'>
+                #include &lt;ArduinoJson.h&gt;
+                #include &lt;ArduinoWebsockets.h&gt;
+                #include &lt;ESP8266WiFi.h&gt;
+                #include &lt;Servo.h&gt;  
+                
+                #ifndef STASSID
+               <code class='text-danger'> #define STASSID "WIFI_SSID HERE" // edit line</code> 
+               <code class='text-danger'> #define STAPSK  "WIFI_PASSWORD HERE" // edit line</code> 
+                #endif
+                
+                const char* ssid     = STASSID;
+                const char* password = STAPSK;
+                DynamicJsonDocument doc(1024);
+                
+                Servo servo;
+                
+                String uuid = "<%= uuid.arduino_uuid %>"; 
+                <code class='text-danger'>const char* websockets_server = "<%= location.hostname %>"; // edit line </code>
+                
+                
+                using namespace websockets; 
+                WebsocketsClient client;
+                
+                void onMessageCallback(WebsocketsMessage message) {
+                    Serial.print("Got Message: ");
+                    Serial.println(message.data());
+                    
+                    deserializeJson(doc, message.data());
+                    
+                    String id = doc["id"];
+                    String uuidDoc = doc["uuid"];
+                    String _duration = doc["duration"];
+                    String _type = doc["type"];
+                    int duration = _duration.toInt();
+                    
+                    
+                    if(uuidDoc.equals(uuid) && _type.equals("req")){
+                      Serial.println("Move, again? Okay peko.");  
+                      doc["type"] = "res"; // respond to request 
+                      char payload[140]; 
+                      serializeJson(doc,payload); 
+                      client.send(payload); 
+                      servo.write(90); //move servo
+                      delay(duration);
+                      servo.write(0); //reset 
+                      
+                    }
+                }
+                
+                void onEventsCallback(WebsocketsEvent event, String data) {
+                    if(event == WebsocketsEvent::ConnectionOpened) {
+                        Serial.println("Connnection Opened");
+                        String message = "{\"meta\":\"join\",\"uuid\":\"" + uuid + "\"}";  
+                        client.send(message);
+                    } else if(event == WebsocketsEvent::ConnectionClosed) {
+                        Serial.println("Connnection Closed");
+                    } else if(event == WebsocketsEvent::GotPing) {
+                        Serial.println("Got a Ping!");
+                    } else if(event == WebsocketsEvent::GotPong) {
+                        Serial.println("Got a Pong!");
+                    } 
+                }
+                
+                void setup() {
+                    servo.attach(2);
+                    servo.write(0);
+                    
+                    Serial.begin(9600);
+                    Serial.println();
+                    Serial.println();
+                    Serial.print("Connecting to ");
+                    Serial.println(ssid);
+                    
+                    WiFi.mode(WIFI_STA);
+                    WiFi.begin(ssid, password);
+                  
+                    while (WiFi.status() != WL_CONNECTED) {
+                      delay(500);
+                      Serial.print(".");
+                    }
+                  
+                    Serial.println("");
+                    Serial.println("WiFi connected");
+                    Serial.println("IP address: ");
+                    Serial.println(WiFi.localIP());
+                    
+                    client.onMessage(onMessageCallback);
+                    client.onEvent(onEventsCallback);
+                    
+                    client.connect(websockets_server);
+                }
+                
+                void loop() {
+                    client.poll();
+                }
+        </code>
+    </pre>
+
+</div>
+<%- include('../partials/footer.ejs') %>

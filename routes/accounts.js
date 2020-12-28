@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
+let userModule = require("../models/user");	
 
 router.get("/sign-in", (req, res) => {
 	res.render("accounts/sign-in");
@@ -9,14 +10,16 @@ router.get("/sign-up", (req, res) => {
 	res.render("accounts/sign-up");
 });
 router.post("/sign-up", (req, res) => {
-	let userModule = require("../models/user");
 	if (req.body.email && req.body.password) {
 		userModule.createUser(req.body.email, req.body.password, function (err) {
-			if (err) throw err;
-			res.redirect("/accounts/sign-in");
+			if (err){
+				res.status(500).send();
+			}else{
+				res.redirect("/accounts/sign-in");
+			}
 		});
 	}else{
-        res.send("gimme something noob shit");
+        res.redirect('back');
     }
 });
 router.post(
