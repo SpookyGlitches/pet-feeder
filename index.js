@@ -5,7 +5,6 @@ const session = require("express-session");
 const flash = require('connect-flash');
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
-// const helmet = require('helmet');
 const http = require('http');
 const WebSocket = require('ws');
 
@@ -17,14 +16,12 @@ const passportConfig = require('./config/passport');
 const homeRouter = require('./routes/home');
 const accountsRouter = require('./routes/accounts');
 
-var job = require('./cron.js');
+// var job = require('./cron.js');
 
 
 
 const app = express();
 const port = process.env.PORT || 3000;
-// var expressWs = require('express-ws')(app);
-// const wsRouter = require('./routes/ws');
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/layout')
@@ -113,6 +110,6 @@ wss.on('connection', function (ws, req) {
 
 
 server.listen(port, () => {
-  job.start();
+  // job.start();
   console.log(`App listening at http://localhost:${port}`);
 })

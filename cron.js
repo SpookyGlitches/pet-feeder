@@ -9,32 +9,32 @@ let job = new CronJob('0 */2 * * * *', function() {
     date2 = new Date(date1.getTime() + (1 * 60 * 1000));
     val1 = date1.toLocaleTimeString(["en-GB"],{hour:'2-digit',minute:'2-digit'})
     val2 = date2.toLocaleTimeString(["en-GB"],{hour:'2-digit',minute:'2-digit'})
-    db.promise().query("SELECT p.id as id,p.arduino_uuid as uuid,s.time,s.duration FROM schedules s INNER JOIN pets p ON s.pet_id = p.id WHERE s.time BETWEEN ? AND ?",[val1,val2]).then(([results,fields]) => {
-        console.log(`Now feeding schedules between ${val1} - ${val2}`)
-        if(results.length>0){
-            console.log("Feeding "+results.length+ " devices");
-            results.forEach((item) => {
-                ws = new WebSocket(`ws://${process.env.APP_HOST}:${process.env.PORT}/${item.uuid}`,"json");
-                ws.onopen = function(){
-                    let details = {
-                        type:'req',
-                        id:item.id,
-                        uuid:item.uuid,
-                        duration:item.duration,
-                        meta:"join"
-                    }
-                    ws.send(JSON.stringify(details));
-                    details.meta = "";
-                    ws.send(JSON.stringify(details))
-                    details.meta = "leave";
-                    ws.send(JSON.stringify(details))
-                    ws.close()
-                  }
-            })
-        }else{
-            console.log("No one to feed at the mentioned time.")
-        }
-    }).catch((e) => console.log(e))
+    // db.promise().query("SELECT p.id as id,p.arduino_uuid as uuid,s.time,s.duration FROM schedules s INNER JOIN pets p ON s.pet_id = p.id WHERE s.time BETWEEN ? AND ?",[val1,val2]).then(([results,fields]) => {
+    //     console.log(`Now feeding schedules between ${val1} - ${val2}`)
+    //     if(results.length>0){
+    //         console.log("Feeding "+results.length+ " devices");
+    //         results.forEach((item) => {
+    //             ws = new WebSocket(`ws://${process.env.APP_HOST}:${process.env.PORT}/${item.uuid}`,"json");
+    //             ws.onopen = function(){
+    //                 let details = {
+    //                     type:'req',
+    //                     id:item.id,
+    //                     uuid:item.uuid,
+    //                     duration:item.duration,
+    //                     meta:"join"
+    //                 }
+    //                 ws.send(JSON.stringify(details));
+    //                 details.meta = "";
+    //                 ws.send(JSON.stringify(details))
+    //                 details.meta = "leave";
+    //                 ws.send(JSON.stringify(details))
+    //                 ws.close()
+    //               }
+    //         })
+    //     }else{
+    //         console.log("No one to feed at the mentioned time.")
+    //     }
+    // }).catch((e) => console.log(e))
 
 
 })

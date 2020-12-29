@@ -55,9 +55,7 @@ $(document).ready(function () {
       type: "GET",
       url: `/home/${id}/info`,
       success: function (response) {
-        console.log(response);
         if (response) {
-          console.log(response);
           let toAppend = "";
           toAppend += `<small>Duration: ${response.schedules[0].duration}</small><br>`
           toAppend += `<small>Arduino id:  ${response.pet.arduino_uuid}</small><br>`
@@ -77,10 +75,8 @@ $(document).ready(function () {
       type: "GET",
       url: `/home/${id}/logs`,
       success: function (response) {
-        console.log(response);
         let toAppend = "";
         let status = "";
-        console.log(response.length);
         response.forEach((item) => {
           toAppend = "";
           status = item.status == "SUCCESS" ? "alert-success" : "alert-danger";
@@ -96,25 +92,23 @@ $(document).ready(function () {
   });
   $(".btn-feed-now").click(function (e) {
     let parent = $(this).parent(); 
-    const details = {
-      type:'req',
-      id: $(parent).children().first().val(),
-      uuid:$(parent).children().eq(1).val(),
-      duration:$(parent).children().eq(2).val(),
-      meta:"join"
-    }
-    console.log(details)
-    console.log("END OF CLIENT DETAILS CONSOLE LOG");
-    let serverUrl = "ws" + "://" + document.location.hostname + ":8080" ;
-    let connection = new WebSocket(serverUrl,"json");
-    connection.onopen = function(){
-      connection.send(JSON.stringify(details));
-      details.meta = "";
-      connection.send(JSON.stringify(details))
-      details.meta = "leave";
-      connection.send(JSON.stringify(details))
-      location.reload();
-    }
+    // const details = {
+    //   type:'req',
+    //   id: $(parent).children().first().val(),
+    //   uuid:$(parent).children().eq(1).val(),
+    //   duration:$(parent).children().eq(2).val(),
+    //   meta:"join"
+    // }
+    // // let serverUrl = "ws" + "://" + document.location.hostname + ":8080" ;
+    // // let connection = new WebSocket(serverUrl,"json");
+    // // connection.onopen = function(){
+    // //   connection.send(JSON.stringify(details));
+    // //   details.meta = "";
+    // //   connection.send(JSON.stringify(details))
+    // //   details.meta = "leave";
+    // //   connection.send(JSON.stringify(details))
+    // //   location.reload();
+    // // }
 
   });
 });
