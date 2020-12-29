@@ -324,7 +324,7 @@ $(document).ready(function () {
   });
   $(".btn-feed-now").click(function (e) {
     let parent = $(this).parent(); 
-    let serverUrl = "ws" + "://" + document.location.hostname + ":80" ;
+    let serverUrl = "wss" + "://" + document.location.hostname + ":80" ;
     let connection = new WebSocket(serverUrl, "json");
     connection.onopen = function(){
       connection.send(JSON.stringify({mesage:"Hello"}));
