@@ -54,7 +54,7 @@ app.get('/',function (req,res){
 app.use('/home', homeRouter);
 app.use('/accounts', accountsRouter);
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 // const wss = new WebSocket.Server({ server, clientTracking: true });
 
 // server.on('upgrade')
@@ -108,7 +108,7 @@ const server = http.createServer(app);
 // // })
 
 
-server.listen(port, function(){
+app.listen(port, function(){
   // job.start();
   console.log("App running at port " + port);
 })
