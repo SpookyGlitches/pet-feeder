@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv').config()
 
 const express = require('express');
 const session = require("express-session");
@@ -43,12 +43,6 @@ app.use(passportConfig.session());
 
 
 
-app.get('/', (req, res) => {
-  // if (req.isAuthenticated())
-  //   res.redirect('/home');
-  // else
-    res.render('index/first-visit');
-})
 
 app.get('/',function (req,res){
   if(req.isAuthenticated()) res.redirect('/home');
@@ -114,7 +108,7 @@ const server = http.createServer(app);
 // // })
 
 
-server.listen(port, function(port){
+server.listen(port, function(){
   // job.start();
   console.log("App running at port " + port);
 })
