@@ -22,17 +22,18 @@ const expressLayouts = require('express-ejs-layouts')
 
 const app = express();
 const port = process.env.PORT || 3000;
-const db = require('./config/database');
+const accountsRouter = require('./routes/accounts');
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 
 app.get('/',function(req,res){
-  res.render('index/first-visit',{port:process.env.port});
+  res.render('index/first-visit');
 })
 
-// app.use('/home',homeRouter);
+// app.get('/home/sign)
+app.use('/home',accountsRouter);
 
 app.listen(port, function(){
   console.log("App running at port " + port);
