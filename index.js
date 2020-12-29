@@ -21,12 +21,23 @@ const expressLayouts = require('express-ejs-layouts')
 const homeRouter = require('./routes/home');
 const accountsRouter = require('./routes/accounts');
 
+const passportConfig = require('./config/passport');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/layout')
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 app.use(expressLayouts)
+
+app.use(session({ secret: "C4$s", resave: false, saveUninitialized: false }));
+app.use(flash());
+
+app.use(passportConfig.initialize());
+app.use(passportConfig.session());
+
 
 app.get('/',function(req,res){
   res.render('index/first-visit');
