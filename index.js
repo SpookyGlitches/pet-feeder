@@ -18,11 +18,13 @@ const passportConfig = require('./config/passport');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.set('view engine', 'ejs');
-app.set('layout', 'layouts/layout')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+
+app.set('view engine', 'ejs');
+app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
+
 
 app.use(session({ secret: "C4$s", resave: false, saveUninitialized: false }));
 app.use(flash());
@@ -45,6 +47,7 @@ wss.on('connection',function(ws,req){
   console.log("Someone joined");
   ws.on("message",function(msg){
     console.log(JSON.parse(msg));
+    ws.send(JSON.stringify({"aa":'aa'}))
   })
 })
 
