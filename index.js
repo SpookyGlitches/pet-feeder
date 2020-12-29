@@ -18,11 +18,11 @@ const expressLayouts = require('express-ejs-layouts')
 
 // // var job = require('./cron.js');
 
-
+const homeRouter = require('./routes/home');
+const accountsRouter = require('./routes/accounts');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const accountsRouter = require('./routes/accounts');
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layouts/layout')
@@ -34,6 +34,7 @@ app.get('/',function(req,res){
 
 // app.get('/home/sign)
 app.use('/accounts',accountsRouter);
+app.use('/home',homeRouter);
 
 app.listen(port, function(){
   console.log("App running at port " + port);
