@@ -28,7 +28,7 @@ app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 
 app.get('/',function(req,res){
-  res.render('index/first-visit');
+  res.render('index/first-visit',{port:process.env.port});
 })
 
 // app.use('/home',homeRouter);
