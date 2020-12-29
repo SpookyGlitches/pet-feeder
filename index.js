@@ -13,7 +13,7 @@ const express = require('express');
 // const passportConfig = require('./config/passport');
 
 
-// const homeRouter = require('./routes/home');
+const homeRouter = require('./routes/home');
 // const accountsRouter = require('./routes/accounts');
 
 // // var job = require('./cron.js');
@@ -27,6 +27,7 @@ app.get('/',function(req,res){
   res.send("Hello");
 })
 
+app.use('/home',homeRouter);
 
 app.listen(port, function(){
   console.log("App running at port " + port);
