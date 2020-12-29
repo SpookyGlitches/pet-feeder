@@ -33,7 +33,7 @@ app.get('/',function(req,res){
 })
 
 // app.get('/home/sign)
-app.use('/home',accountsRouter);
+app.use('/accounts',accountsRouter);
 
 app.listen(port, function(){
   console.log("App running at port " + port);
