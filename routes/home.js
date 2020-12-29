@@ -108,7 +108,7 @@ router.get("/edit/:id", authMW, function (req, res) {
 router.get("/code/:uuid", authMW, function (req, res) {
 	db.query("SELECT * FROM pets WHERE arduino_uuid = ? AND user_id = ? LIMIT 1", [req.params.uuid, req.user.id], function (err, results) {
 		if (err || results.length == 0) res.status(404).send("Cannot find pet");
-		else res.render('index/code', { uuid: results[0], port: process.env.PORT, active: '' });
+		else res.render('index/code', { uuid: results[0], active: '' });
 	})
 })
 

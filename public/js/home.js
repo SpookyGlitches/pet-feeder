@@ -92,6 +92,14 @@ $(document).ready(function () {
   });
   $(".btn-feed-now").click(function (e) {
     let parent = $(this).parent(); 
+    let serverUrl = "ws" + "://" + document.location.hostname + ":8080" ;
+    let connection = new WebSocket(serverUrl, "json");
+    connection.onopen = function(){
+      connection.send(JSON.stringify({mesage:"Hello"}));
+    }
+    connection.onmessage = function(message){
+      console.log(message.data);
+    }
     // const details = {
     //   type:'req',
     //   id: $(parent).children().first().val(),
@@ -99,7 +107,6 @@ $(document).ready(function () {
     //   duration:$(parent).children().eq(2).val(),
     //   meta:"join"
     // }
-    // // let serverUrl = "ws" + "://" + document.location.hostname + ":8080" ;
     // // let connection = new WebSocket(serverUrl,"json");
     // // connection.onopen = function(){
     // //   connection.send(JSON.stringify(details));

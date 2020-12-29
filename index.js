@@ -5,8 +5,8 @@ const session = require("express-session");
 const flash = require('connect-flash');
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
-// const http = require('http');
-// // const WebSocket = require('ws');
+const http = require('http');
+const WebSocket = require('ws');
 // const uuiders = require('uuid');
 // // var job = require('./cron.js');
 
@@ -35,11 +35,20 @@ app.get('/',function(req,res){
   res.render('index/first-visit');
 })
 
-// app.get('/home/sign)
 app.use('/accounts',accountsRouter);
 app.use('/home',homeRouter);
 
-app.listen(port, function(){
+const server = http.createServer(app);
+const wss = new WebSocket.Server({server, clientTracking:true})
+
+wss.on('connection',function(ws,req){
+  console.log("Someone joined");
+  ws.on("message",function(msg){
+    console.log(JSON.parse(msg));
+  })
+})
+
+server.listen(port, function(){
   console.log("App running at port " + port);
 })
 
