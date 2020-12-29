@@ -50,6 +50,11 @@ app.get('/', (req, res) => {
     res.render('index/first-visit');
 })
 
+app.get('/',function (req,res){
+  if(req.isAuthenticated()) res.redirect('/home');
+  else res.render('index/first-vist');
+})
+
 
 // app.use("/feed",wsRouter);
 app.use('/home', homeRouter);
@@ -109,9 +114,9 @@ const server = http.createServer(app);
 // // })
 
 
-server.listen(port, () => {
+server.listen(port, function(port){
   // job.start();
-  console.log("App running");
+  console.log("App running at port " + port);
 })
 
 

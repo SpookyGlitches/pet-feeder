@@ -8,14 +8,14 @@ const customFields = {
 	passwordField: "password",
 };
 
-const verifyCallback = (email, password, done) => {
+const verifyCallback = function (email, password, done) {
 	if (!(email || password)) {
 		return done(null, false);
 	}
 	db.query(
 		"SELECT * FROM users WHERE email = ? LIMIT 1",
 		[email],
-		(err, result) => {
+		function (err, result) {
 			if (err) {
 				throw err;
 			}
@@ -40,14 +40,14 @@ const verifyCallback = (email, password, done) => {
 const strategy = new LocalStrategy(customFields, verifyCallback);
 passport.use(strategy);
 
-passport.serializeUser((user, done) => {
+passport.serializeUser(function (user, done) {
 	done(null, {
 		id: user.id,
 		email: user.email,
 	});
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser(function (user, done) {
 	done(null, user);
 });
 

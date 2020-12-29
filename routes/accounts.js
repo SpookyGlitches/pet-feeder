@@ -1,26 +1,26 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
-let userModule = require("../models/user");	
+let userModule = require("../models/user");
 
-router.get("/sign-in", (req, res) => {
+router.get("/sign-in", function (req, res) {
 	res.render("accounts/sign-in");
 });
-router.get("/sign-up", (req, res) => {
+router.get("/sign-up", function (req, res) {
 	res.render("accounts/sign-up");
 });
-router.post("/sign-up", (req, res) => {
+router.post("/sign-up", function (req, res) {
 	if (req.body.email && req.body.password) {
 		userModule.createUser(req.body.email, req.body.password, function (err) {
-			if (err){
+			if (err) {
 				res.status(500).send();
-			}else{
+			} else {
 				res.redirect("/accounts/sign-in");
 			}
 		});
-	}else{
-        res.redirect('back');
-    }
+	} else {
+		res.redirect('back');
+	}
 });
 router.post(
 	"/sign-in",
@@ -30,7 +30,7 @@ router.post(
 		failureFlash: true, // allow flash messages
 	})
 );
-router.get("/log-out", (req, res) => {
+router.get("/log-out", function (req, res) {
 	req.logout();
 	res.redirect("/");
 });
