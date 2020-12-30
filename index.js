@@ -44,7 +44,7 @@ app.use('/home', homeRouter);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, clientTracking: true })
 const db = require('./config/database');
-const { job } = require('cron');
+
 let rooms = {};
 
 wss.on('connection', function (ws, req) {
