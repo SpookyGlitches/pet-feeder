@@ -42,7 +42,7 @@ app.use('/home', homeRouter);
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, clientTracking: true })
-const db = require('./config/database');
+// const db = require('./config/database');
 let rooms = {};
 
 // wss.on('connection', function (ws, req) {
