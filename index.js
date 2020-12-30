@@ -40,8 +40,8 @@ app.get('/', function (req, res) {
 app.use('/accounts', accountsRouter);
 app.use('/home', homeRouter);
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server, clientTracking: true })
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server, clientTracking: true })
 // const db = require('./config/database');
 let rooms = {};
 
@@ -84,7 +84,7 @@ let rooms = {};
 // })
 
 
-server.listen(port, function () {
+app.listen(port, function () {
   console.log("App running at port " + port);
 })
 
