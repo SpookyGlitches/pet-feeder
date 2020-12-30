@@ -48,41 +48,41 @@ let rooms = {};
 wss.on('connection', function (ws, req) {
   let uuid = uuiders.v4();
   console.log("Someone opened a connection.");
-  ws.on("message",function(msg){
-    console.log(msg);
+  // ws.on("message",function(msg){
+  //   console.log(msg);
+  // })
+  ws.on("message", function (msg) {
+    let data = JSON.parse(msg);
+    switch (data.meta) {
+      case "join":
+        if (!rooms[data.uuid]) rooms[data.uuid] = {}; // create the room
+        if (!rooms[data.uuid][uuid]) rooms[data.uuid][uuid] = ws; //join the existing room
+        break;
+      case "leave":
+        leave(data.uuid);
+        break;
+      default:
+        if (data.type == 'res') {
+          console.log("Received response");
+          db.query("INSERT INTO feeding_logs (pet_id,duration,status) VALUES (?,?,?)", [data.id, data.duration, "SUCCESS"]).catch((error) => console.log(error));
+        } else if (data.type == 'req') {
+          console.log("Someone tried to request");
+          Object.entries(rooms[data.uuid]).forEach(([, sock]) => sock.send(JSON.stringify(data)));
+        }
+    }
   })
-  // ws.on("message", function (msg) {
-  //   let data = JSON.parse(msg);
-  //   switch (data.meta) {
-  //     case "join":
-  //       if (!rooms[data.uuid]) rooms[data.uuid] = {}; // create the room
-  //       if (!rooms[data.uuid][uuid]) rooms[data.uuid][uuid] = ws; //join the existing room
-  //       break;
-  //     case "leave":
-  //       leave(data.uuid);
-  //       break;
-  //     default:
-  //       if (data.type == 'res') {
-  //         console.log("Received response");
-  //         db.query("INSERT INTO feeding_logs (pet_id,duration,status) VALUES (?,?,?)", [data.id, data.duration, "SUCCESS"]).catch((error) => console.log(error));
-  //       } else if (data.type == 'req') {
-  //         console.log("Someone tried to request");
-  //         Object.entries(rooms[data.uuid]).forEach(([, sock]) => sock.send(JSON.stringify(data)));
-  //       }
-  //   }
-  // })
 
-  // ws.on("close", () => {
-  //   Object.keys(rooms).forEach(room => leave(room));
-  // })
+  ws.on("close", () => {
+    Object.keys(rooms).forEach(room => leave(room));
+  })
 
-  // function leave(room) {
-  //   console.log("Start leave, length rooms: " + Object.keys(rooms).length);
-  //   if (!rooms[room][uuid]) return;
-  //   if (Object.keys(rooms[room]).length == 1) delete rooms[room];
-  //   else delete rooms[room][uuid];
-  //   console.log("End leave, length rooms: " + Object.keys(rooms).length);
-  // }
+  function leave(room) {
+    console.log("Start leave, length rooms: " + Object.keys(rooms).length);
+    if (!rooms[room][uuid]) return;
+    if (Object.keys(rooms[room]).length == 1) delete rooms[room];
+    else delete rooms[room][uuid];
+    console.log("End leave, length rooms: " + Object.keys(rooms).length);
+  }
 
 })
 
