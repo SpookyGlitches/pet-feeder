@@ -19,8 +19,7 @@
                 Servo servo;
                 
                 String uuid = "<%= uuid.arduino_uuid %>"; 
-                <code class='text-danger'>const char* websockets_server = "<%= %>"; // ws://{website name}:{port} </code>
-                
+                const char* websockets_server = "wss://it-treats.azurewebsites.net";
                 
                 using namespace websockets; 
                 WebsocketsClient client;
@@ -39,7 +38,6 @@
                     
                     
                     if(uuidDoc.equals(uuid) && _type.equals("req")){
-                      Serial.println("Move, again? Okay peko.");  
                       doc["type"] = "res"; // respond to request 
                       char payload[140]; 
                       serializeJson(doc,payload); 
@@ -66,7 +64,7 @@
                 }
                 
                 void setup() {
-                    servo.attach(2);
+                    servo.attach(4); //GPIO 4 / D2
                     servo.write(0);
                     
                     Serial.begin(9600);
