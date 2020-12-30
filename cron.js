@@ -14,7 +14,7 @@ let job = new CronJob('0 */2 * * * *', function() {
         if(results.length>0){
             console.log("Feeding "+results.length+ " devices");
             results.forEach((item) => {
-                ws = new WebSocket(`ws://it-treats.azurewebsites.net`,"json");
+                ws = new WebSocket(`wss://it-treats.azurewebsites.net`,"json");
                 ws.onopen = function(){
                     let details = {
                         type:'req',
