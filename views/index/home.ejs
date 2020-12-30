@@ -345,24 +345,7 @@ $(document).ready(function () {
       connection.send(JSON.stringify(details))
       location.reload();
     }
-    // const details = {
-    //   type:'req',
-    //   id: $(parent).children().first().val(),
-    //   uuid:$(parent).children().eq(1).val(),
-    //   duration:$(parent).children().eq(2).val(),
-    //   meta:"join"
-    // }
-    // // let connection = new WebSocket(serverUrl,"json");
-    // // connection.onopen = function(){
-    // //   connection.send(JSON.stringify(details));
-    // //   details.meta = "";
-    // //   connection.send(JSON.stringify(details))
-    // //   details.meta = "leave";
-    // //   connection.send(JSON.stringify(details))
-    // //   location.reload();
-    // // }
 
   });
 });
 </script>
-<!-- <script src="/js/home.js"></script> -->
