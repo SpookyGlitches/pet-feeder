@@ -8,7 +8,7 @@ const expressLayouts = require('express-ejs-layouts')
 const http = require('http');
 const WebSocket = require('ws');
 const uuiders = require('uuid');
-// // var job = require('./cron.js');
+var job = require('./cron.js');
 
 const homeRouter = require('./routes/home');
 const accountsRouter = require('./routes/accounts');
@@ -44,14 +44,11 @@ app.use('/home', homeRouter);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, clientTracking: true })
 const db = require('./config/database');
+const { job } = require('cron');
 let rooms = {};
 
 wss.on('connection', function (ws, req) {
   let uuid = uuiders.v4();
-  console.log("Someone opened a connection.");
-  // ws.on("message",function(msg){
-  //   console.log(msg);
-  // })
   ws.on("message", function (msg) {
     let data = JSON.parse(msg);
     switch (data.meta) {
@@ -65,7 +62,7 @@ wss.on('connection', function (ws, req) {
       default:
         if (data.type == 'res') {
           console.log("Received response");
-          db.query("INSERT INTO feeding_logs (pet_id,duration,status) VALUES (?,?,?)", [data.id, data.duration, "SUCCESS"]).catch((error) => console.log(error));
+          db.promise().query("INSERT INTO feeding_logs (pet_id,duration,status) VALUES (?,?,?)", [data.id, data.duration, "SUCCESS"]).catch((error) => console.log(error));
         } else if (data.type == 'req') {
           console.log("Someone tried to request");
           Object.entries(rooms[data.uuid]).forEach(([, sock]) => sock.send(JSON.stringify(data)));
@@ -89,6 +86,7 @@ wss.on('connection', function (ws, req) {
 
 
 server.listen(port, function () {
+  job.start();
   console.log("App running at port " + port);
 })
 
