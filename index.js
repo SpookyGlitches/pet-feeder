@@ -35,9 +35,8 @@ app.use(passportConfig.session());
 
 app.get('/', function (req, res) {
   if(req.isAuthenticated()) res.redirect('/home');
-  else res.render('index/first-visit');
+  else res.render('index/first-visit',{time:new Date().toLocaleTimeString(["en-GB"],{hour:'2-digit',minute:'2-digit'})});
 })
-
 app.use('/accounts', accountsRouter);
 app.use('/home', homeRouter);
 
