@@ -34,7 +34,8 @@ app.use(passportConfig.session());
 
 
 app.get('/', function (req, res) {
-  res.render('index/first-visit');
+  if(req.isAuthenticated()) res.redirect('/home');
+  else res.render('index/first-visit');
 })
 
 app.use('/accounts', accountsRouter);

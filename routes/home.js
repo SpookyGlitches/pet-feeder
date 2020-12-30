@@ -80,7 +80,7 @@ router.post("/edit", authMW, function (req, res) {
 
 router.get('/:id/logs', authMW, function (req, res) {
 	db.query("SELECT status,duration,date_format(date_time, '%m/%d%/%Y %l:%i %p') as date_time FROM feeding_logs WHERE pet_id = ?", [req.params.id], function (err, results) {
-		if (err) res.status(404).send("Unable to retrieve logs");
+		if (err) res.status(404).send();
 		else res.send(results);
 	})
 })
@@ -93,13 +93,13 @@ router.get('/:id/info', authMW, async function (req, res) {
 		if (!(pet && pet.length != 0)) throw new Error();
 		res.send({ pet: pet[0], schedules })
 	} catch (err) {
-		return res.status(500).send("Something went wrong...");
+		return res.status(500).send();
 	}
 })
 
 router.get("/edit/:id", authMW, function (req, res) {
 	db.query("SELECT p.id, p.name,p.details FROM pets p WHERE p.id = ? LIMIT 1", req.params.id, function (err, results) {
-		if (err || results.length == 0) res.status(404).send("Unable to edit.");
+		if (err || results.length == 0) res.status(404).send();
 		else res.send(results[0]);
 
 	})
