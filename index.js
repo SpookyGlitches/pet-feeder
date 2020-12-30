@@ -48,6 +48,9 @@ let rooms = {};
 wss.on('connection', function (ws, req) {
   let uuid = uuiders.v4();
   console.log("Someone opened a connection.");
+  ws.on("message",function(msg){
+    console.log(msg);
+  })
   // ws.on("message", function (msg) {
   //   let data = JSON.parse(msg);
   //   switch (data.meta) {
