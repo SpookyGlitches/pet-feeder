@@ -6,13 +6,12 @@ A web application that offers a service to individuals to remotely feed their pe
 
 **Database**
 
-
-    ![](others/db_design.png)
+![](others/db_design.png)
 
 **Diagram**
 
 
-    ![](others/ard_diagram.png)
+![](others/ard_diagram.png)
 
 
 ## Deployment
