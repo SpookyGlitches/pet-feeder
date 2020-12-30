@@ -84,7 +84,7 @@ wss.on('connection', function (ws, req) {
 })
 
 
-app.listen(port, function () {
+server.listen(port, function () {
   console.log("App running at port " + port);
 })
 
