@@ -29,10 +29,10 @@ Active site here (https://it-treats.azurewebsites.net/)
 
 ## Authors
 
-**Earl Augusto**  - [SpookyGlitches](https://github.com/SpookyGlitches)
-**Neal Bolano**  - [Amadeus](https://github.com/amadeus6969)
-**Jonard Pesquera**  - [OnatP](https://github.com/OnatP)
-**Philippe Tan**  - [philippetan](https://github.com/philippetan)
+* **Earl Augusto**  - [SpookyGlitches](https://github.com/SpookyGlitches)
+* **Neal Bolano**  - [Amadeus](https://github.com/amadeus6969)
+* **Jonard Pesquera**  - [OnatP](https://github.com/OnatP)
+* **Philippe Tan**  - [philippetan](https://github.com/philippetan)
 
 ## Acknowledgments
 
