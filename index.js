@@ -8,7 +8,7 @@ const expressLayouts = require('express-ejs-layouts')
 const http = require('http');
 const WebSocket = require('ws');
 const uuiders = require('uuid');
-var job = require('./cron.js');
+// var job = require('./cron.js');
 
 const homeRouter = require('./routes/home');
 const accountsRouter = require('./routes/accounts');
@@ -85,7 +85,7 @@ wss.on('connection', function (ws, req) {
 
 
 server.listen(port, function () {
-  job.start();
+  // job.start();
   console.log("App running at port " + port);
 })
 
